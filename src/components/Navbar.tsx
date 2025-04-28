@@ -17,7 +17,7 @@ const Navbar: FC = () => {
           </Link>
 
           {/* Desktop Links */}
-          <div className="hidden md:flex items-center space-x-8">
+          <div className="hidden lg:flex items-center space-x-8">
             <Link
               to="/"
               className="text-gray-300 hover:text-white transition-colors"
@@ -45,7 +45,7 @@ const Navbar: FC = () => {
           </div>
 
           {/* Desktop Auth */}
-          <div className="hidden md:flex items-center">
+          <div className="hidden lg:flex items-center">
             {user ? (
               <div className="flex items-center space-x-4">
                 {user.user_metadata.avatar_url && (
@@ -58,9 +58,12 @@ const Navbar: FC = () => {
                 <span className="text-gray-300">{displayName}</span>
                 <button
                   onClick={signOut}
-                  className="bg-red-500 px-3 py-1 rounded"
+                  className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors flex items-center justify-center space-x-2"
                 >
-                  Sign Out
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                  </svg>
+                  <span>Sign Out</span>
                 </button>
               </div>
             ) : (
@@ -77,9 +80,9 @@ const Navbar: FC = () => {
           </div>
 
           {/* Mobile Menu Button */}
-          <div className="md:hidden">
+          <div className="lg:hidden">
             <button
-              onClick={() => { setMenuOpen((prev) => !prev); }}
+              onClick={() => { setMenuOpen(!menuOpen); }}
               className="text-gray-300 focus:outline-none"
               aria-label="Toggle menu"
             >
@@ -113,7 +116,7 @@ const Navbar: FC = () => {
 
       {/* Mobile Menu */}
       {menuOpen && (
-        <div className="md:hidden bg-[rgba(10,10,10,0.9)]">
+        <div className="lg:hidden bg-[rgba(10,10,10,0.9)]">
           <div className="px-2 pt-2 space-y-1">
             <Link
               to="/"
@@ -156,9 +159,12 @@ const Navbar: FC = () => {
                 </div>
                 <button
                   onClick={signOut}
-                  className="w-full bg-red-500/10 hover:bg-red-500/20 text-red-500 px-4 py-2.5 rounded-md text-sm font-medium transition-colors"
+                  className="w-full bg-red-500 hover:bg-red-600 text-white px-4 py-2.5 rounded-md text-sm font-medium transition-colors flex items-center justify-center space-x-2"
                 >
-                  Sign Out
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                  </svg>
+                  <span>Sign Out</span>
                 </button>
               </div>
             ) : (
