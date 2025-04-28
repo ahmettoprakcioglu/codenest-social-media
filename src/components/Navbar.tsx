@@ -1,13 +1,29 @@
 import { FC, useState } from 'react';
-import { Link } from 'react-router';
+import { Link, useLocation } from 'react-router';
 import { useAuth } from '../hooks/useAuth';
 import Logo from '../assets/svg/Logo';
 
 const Navbar: FC = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const { signInWithGitHub, signOut, user } = useAuth();
+  const location = useLocation();
 
   const displayName = user?.user_metadata.user_name ?? user?.email ?? 'Anonymous';
+
+  const isActive = (path: string): boolean => location.pathname === path;
+
+  const getLinkClassName = (path: string): string => {
+    const baseClass = 'text-gray-300 hover:text-white transition-colors';
+    const activeClass = 'text-white font-medium';
+    return `${baseClass} ${isActive(path) ? activeClass : ''}`;
+  };
+
+  const getMobileLinkClassName = (path: string): string => {
+    const baseClass = 'block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-700';
+    const activeClass = 'bg-gray-700 text-white';
+    return `${baseClass} ${isActive(path) ? activeClass : ''}`;
+  };
+
   return (
     <nav className="fixed top-0 w-full z-40 bg-[rgba(10,10,10,0.8)] backdrop-blur-lg border-b border-white/10 shadow-lg">
       <div className="max-w-5xl mx-auto px-4">
@@ -20,25 +36,25 @@ const Navbar: FC = () => {
           <div className="hidden lg:flex items-center space-x-8">
             <Link
               to="/"
-              className="text-gray-300 hover:text-white transition-colors"
+              className={getLinkClassName('/')}
             >
               Home
             </Link>
             <Link
               to="/create"
-              className="text-gray-300 hover:text-white transition-colors"
+              className={getLinkClassName('/create')}
             >
               Create Post
             </Link>
             <Link
               to="/communities"
-              className="text-gray-300 hover:text-white transition-colors"
+              className={getLinkClassName('/communities')}
             >
               Communities
             </Link>
             <Link
               to="/community/create"
-              className="text-gray-300 hover:text-white transition-colors"
+              className={getLinkClassName('/community/create')}
             >
               Create Community
             </Link>
@@ -120,25 +136,29 @@ const Navbar: FC = () => {
           <div className="px-2 pt-2 space-y-1">
             <Link
               to="/"
-              className="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-700"
+              className={getMobileLinkClassName('/')}
+              onClick={() => { setMenuOpen(false); }}
             >
               Home
             </Link>
             <Link
               to="/create"
-              className="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-700"
+              className={getMobileLinkClassName('/create')}
+              onClick={() => { setMenuOpen(false); }}
             >
               Create Post
             </Link>
             <Link
               to="/communities"
-              className="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-700"
+              className={getMobileLinkClassName('/communities')}
+              onClick={() => { setMenuOpen(false); }}
             >
               Communities
             </Link>
             <Link
               to="/community/create"
-              className="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-700"
+              className={getMobileLinkClassName('/community/create')}
+              onClick={() => { setMenuOpen(false); }}
             >
               Create Community
             </Link>
