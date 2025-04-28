@@ -24,7 +24,9 @@ export default tseslint.config(
         JSX: 'readonly',
       },
       parserOptions: {
-        project: ['./tsconfig.json'],
+        projectService: {
+          projectConfigPath: './tsconfig.json',
+        },
         ecmaFeatures: {
           jsx: true,
         },
