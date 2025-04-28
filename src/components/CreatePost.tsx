@@ -1,10 +1,12 @@
 import { ChangeEvent, FC, useState } from 'react';
 import { supabase } from '../supabase-client';
 import { useMutation } from '@tanstack/react-query';
+import { useAuth } from '../hooks/useAuth';
 
 interface PostInput {
   title: string;
   content: string;
+  avatar_url: string | null;
 }
 
 const createPost = async (post: PostInput, imageFile: File): Promise<PostInput | null> => {
@@ -30,6 +32,8 @@ const createPost = async (post: PostInput, imageFile: File): Promise<PostInput |
 };
 
 const CreatePost: FC = () => {
+  const { user } = useAuth();
+
   const [title, setTitle] = useState<string>('');
   const [content, setContent] = useState<string>('');
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -51,7 +55,7 @@ const CreatePost: FC = () => {
     }
     
     setImageError('');
-    mutate({ post: { title, content }, imageFile: selectedFile });
+    mutate({ post: { title, content, avatar_url: user?.user_metadata.avatar_url ?? null }, imageFile: selectedFile });
   };
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>): void => {
