@@ -35,6 +35,7 @@ const CreatePost: FC = () => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [imageError, setImageError] = useState<string>('');
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
+  const [isDragActive, setIsDragActive] = useState<boolean>(false);
 
   const { mutate, isPending, isError } = useMutation({
     mutationFn: (data: { post: PostInput; imageFile: File }) => createPost(data.post, data.imageFile),
@@ -103,19 +104,23 @@ const CreatePost: FC = () => {
         </label>
         <div
           className={`border-2 border-dashed rounded-lg p-6 text-center cursor-pointer transition-colors ${
-            isSubmitted && !selectedFile ? 'border-red-500' : 'border-gray-600 hover:border-purple-500'
+            isDragActive
+              ? 'border-purple-500 bg-purple-950/30'
+              : isSubmitted && !selectedFile
+                ? 'border-red-500'
+                : 'border-gray-600 hover:border-purple-500'
           }`}
           onDragOver={(e) => {
             e.preventDefault();
-            e.currentTarget.classList.add('border-purple-500');
+            setIsDragActive(true);
           }}
           onDragLeave={(e) => {
             e.preventDefault();
-            e.currentTarget.classList.remove('border-purple-500');
+            setIsDragActive(false);
           }}
           onDrop={(e) => {
             e.preventDefault();
-            e.currentTarget.classList.remove('border-purple-500');
+            setIsDragActive(false);
             const file = e.dataTransfer.files[0];
             if (file.type === 'image/jpeg' || file.type === 'image/png') {
               setSelectedFile(file);
@@ -158,7 +163,7 @@ const CreatePost: FC = () => {
           ) : (
             <div className="space-y-2">
               <svg
-                className="mx-auto h-12 w-12 text-gray-400"
+                className={`mx-auto h-12 w-12 transition-colors ${isDragActive ? 'text-purple-400' : 'text-gray-400'}`}
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
