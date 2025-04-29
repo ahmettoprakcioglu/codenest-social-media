@@ -1,54 +1,122 @@
-# React + TypeScript + Vite
+# CodeNest Social Media Platform
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+<div align="center">
+  <h3>A Modern Community Forum & Q&A Platform</h3>
 
-Currently, two official plugins are available:
+  <p align="center">
+    <img src="https://img.shields.io/badge/-React-61DAFB?style=for-the-badge&logo=react&logoColor=black" alt="React" />
+    <img src="https://img.shields.io/badge/-Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white" alt="Vite" />
+    <img src="https://img.shields.io/badge/-TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript" />
+    <img src="https://img.shields.io/badge/-Supabase-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white" alt="Supabase" />
+    <img src="https://img.shields.io/badge/-TailwindCSS-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white" alt="Tailwind CSS" />
+  </p>
+</div>
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 📋 Table of Contents
 
-## Expanding the ESLint configuration
+- [Overview](#-overview)
+- [Features](#-features)
+- [Tech Stack](#-tech-stack)
+- [Getting Started](#-getting-started)
+- [Project Structure](#-project-structure)
+- [Environment Setup](#-environment-setup)
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 🌟 Overview
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+CodeNest is a modern social media platform built with React and Supabase, featuring real-time interactions, GitHub authentication, and a beautiful UI with glassmorphism effects. The platform allows developers to share knowledge, ask questions, and engage in meaningful discussions within a community-driven environment.
+
+## 🚀 Features
+
+- **Secure Authentication**
+  - GitHub OAuth integration
+  - Protected routes and user sessions
+  - User profile management
+
+- **Real-time Interactions**
+  - Live post updates and notifications
+  - Dynamic voting system
+  - Instant comment updates
+
+- **Rich Content Creation**
+  - Markdown support for posts
+  - Image upload capabilities
+  - Code snippet sharing with syntax highlighting
+
+- **Modern UI/UX**
+  - Responsive design for all devices
+  - Glassmorphism effects
+  - Dark/Light mode support
+  - Smooth animations and transitions
+
+## ⚙️ Tech Stack
+
+- **Frontend:**
+  - React 18 with TypeScript
+  - Vite for fast development
+  - TailwindCSS for styling
+  - React Query for data fetching
+
+- **Backend:**
+  - Supabase for backend services
+  - Real-time subscriptions
+  - PostgreSQL database
+  - Storage for media files
+
+## 🏁 Getting Started
+
+### Prerequisites
+
+- Node.js (v18 or higher)
+- npm or yarn
+- Git
+- Supabase account
+
+### Installation
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/ahmettoprakcioglu/codenest-social-media
+   cd codenest-social-media
+   ```
+
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+
+3. Create a `.env` file in the root directory:
+   ```env
+   VITE_SUPABASE_URL=your_supabase_url
+   VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
+   ```
+
+4. Start the development server:
+   ```bash
+   npm run dev
+   ```
+
+## 📁 Project Structure
+
+```
+codenest-social-media/
+├── src/
+│   ├── components/    # Reusable UI components
+│   ├── pages/        # Page components
+│   ├── api/          # API integration
+│   ├── hooks/        # Custom React hooks
+│   ├── context/      # React context providers
+│   └── assets/       # Static assets
+├── public/           # Public assets
+└── ...config files
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## 🔧 Environment Setup
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+1. Create a new project in Supabase
+2. Set up the following tables:
+   - users
+   - posts
+   - comments
+   - votes
+3. Configure authentication providers
+4. Set up storage buckets for media
