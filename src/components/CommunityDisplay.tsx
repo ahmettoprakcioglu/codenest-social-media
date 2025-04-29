@@ -16,12 +16,10 @@ interface PostWithCommunity extends Post {
 export const fetchCommunityPost = async (
   communityId: number,
 ): Promise<PostWithCommunity[]> => {
-  const { data, error } = await supabase
-    .from('posts')
-    .select('*, communities(name)')
-    .eq('community_id', communityId)
-    .order('created_at', { ascending: false });
-
+  const { data, error } = await supabase.rpc('get_community_posts_with_counts', {
+    community_id: communityId,
+  }) as { data: Post[] | null; error: Error | null };
+  
   if (error) throw new Error(error.message);
   return data as PostWithCommunity[];
 };
