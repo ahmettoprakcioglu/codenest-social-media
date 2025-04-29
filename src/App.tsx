@@ -4,6 +4,7 @@ import Home from './pages/Home';
 import Navbar from './components/Navbar';
 import CreatePostPage from './pages/CreatePostPage';
 import PostPage from './pages/PostPage';
+import CreateCommunityPage from './pages/CreateCommunityPage';
 
 const App: FC = () => (
   <div className="min-h-screen bg-black text-gray-100 transition-opacity duration-700 pt-20">
@@ -13,6 +14,7 @@ const App: FC = () => (
         <Route path='/' element={<Home />} />
         <Route path='/create' element={<CreatePostPage />} />
         <Route path='/post/:id' element={<PostPage />} />
+        <Route path="/community/create" element={<CreateCommunityPage />} />
       </Routes>
     </div>
   </div>

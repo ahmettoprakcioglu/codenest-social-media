@@ -13,20 +13,16 @@ export interface Post {
   avatar_url?: string;
   user_name?: string;
   like_count?: number;
+  dislike_count?: number;
   comment_count?: number;
 }
 
 const fetchPosts = async (): Promise<Post[]> => {
-  const response = await supabase
-    .from('posts')
-    .select('*')
-    .order('created_at', { ascending: false });
-
-  const { data, error } = response;
+  const { data, error } = await supabase.rpc('get_posts_with_counts') as { data: Post[] | null; error: Error | null };
 
   if (error) throw new Error(error.message);
 
-  return data as Post[];
+  return data ?? [];
 };
 
 const PostList = (): React.ReactElement => {
@@ -34,7 +30,7 @@ const PostList = (): React.ReactElement => {
     queryKey: ['posts'],
     queryFn: fetchPosts,
   });
-
+  
   if (error) {
     return <div>Error: {error.message}</div>;
   }
