@@ -1,12 +1,14 @@
 import { ChangeEvent, FC, useState } from 'react';
 import { supabase } from '../supabase-client';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { useAuth } from '../hooks/useAuth';
+import { fetchCommunities } from '../api/community';
 
 interface PostInput {
   title: string;
   content: string;
   avatar_url: string | null;
+  community_id: number | null;
 }
 
 const createPost = async (post: PostInput, imageFile: File): Promise<PostInput | null> => {
@@ -31,31 +33,46 @@ const createPost = async (post: PostInput, imageFile: File): Promise<PostInput |
   return data;
 };
 
-const CreatePost: FC = () => {
+const CreatePost: FC = (): React.ReactElement => {
   const { user } = useAuth();
 
   const [title, setTitle] = useState<string>('');
   const [content, setContent] = useState<string>('');
+  const [communityId, setCommunityId] = useState<number | null>(null);
+
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [imageError, setImageError] = useState<string>('');
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
   const [isDragActive, setIsDragActive] = useState<boolean>(false);
 
+  const { data: communities = [] } = useQuery({
+    queryKey: ['communities'],
+    queryFn: fetchCommunities,
+  });
+
   const { mutate, isPending, isError } = useMutation({
     mutationFn: (data: { post: PostInput; imageFile: File }) => createPost(data.post, data.imageFile),
   });
   
-  const handleSubmit = (event: React.FormEvent): void => {
+  const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     setIsSubmitted(true);
-    
-    if (!selectedFile) {
-      setImageError('Please select an image');
-      return;
-    }
-    
-    setImageError('');
-    mutate({ post: { title, content, avatar_url: user?.user_metadata.avatar_url ?? null }, imageFile: selectedFile });
+
+    if (!selectedFile) return;
+    mutate({
+      post: {
+        title,
+        content,
+        avatar_url: user?.user_metadata.avatar_url ?? null,
+        community_id: communityId,
+      },
+      imageFile: selectedFile,
+    });
+  };
+
+  const handleCommunityChange = (e: ChangeEvent<HTMLSelectElement>) => {
+    const value = e.target.value;
+    setCommunityId(value ? Number(value) : null);
   };
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>): void => {
@@ -100,6 +117,24 @@ const CreatePost: FC = () => {
           placeholder="Write your post content here..."
           required
         />
+      </div>
+
+      <div className="space-y-2">
+        <label htmlFor="community" className="block text-sm font-medium text-gray-300">
+          Select Community
+        </label>
+        <select
+          id="community"
+          onChange={handleCommunityChange}
+          className="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent text-white placeholder-gray-400 appearance-none"
+        >
+          <option value="">-- Choose a Community --</option>
+          {communities.map((community) => (
+            <option key={community.id} value={community.id}>
+              {community.name}
+            </option>
+          ))}
+        </select>
       </div>
 
       <div className="space-y-2">
