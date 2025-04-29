@@ -75,7 +75,7 @@ CodeNest is a modern social media platform built with React and Supabase, featur
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/ahmettoprakcioglu/codenest-social-media
+   git clone https://github.com/ahmettoprakcioglu/codenest-social-media.git
    cd codenest-social-media
    ```
 
